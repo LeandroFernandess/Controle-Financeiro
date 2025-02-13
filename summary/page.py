@@ -82,7 +82,7 @@ def summary_page():
     st.markdown("---")
     if saldo_restante > 0:
         st.success("🎉 Você está dentro do orçamento!")
-    else:
+    elif saldo_restante < 0: 
         st.error(
             "⚠️ Atenção! Você está gastando mais do que sua renda. Considere revisar seus gastos."
         )

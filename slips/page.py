@@ -149,20 +149,25 @@ def show_bill_info(bill):
 
 
 def show_edit_form(bill):
-
     with st.form(key=f"edit_form_{bill[0]}"):
         st.subheader("Editar Boleto")
+
+        # Converter para objeto date se necessário
+        existing_due_date = bill[3].date() if isinstance(bill[3], datetime) else bill[3]
+        current_date = datetime.today().date()
 
         new_title = st.text_input("Título*", value=bill[1])
         new_total = st.number_input(
             "Valor Total (R$)*", value=float(bill[2]), min_value=0.01, step=0.01
         )
 
+        # Ajustar min_value para permitir a data original
         new_due_date = st.date_input(
             "Data de Vencimento*",
-            value=bill[3],
+            value=existing_due_date,
             format="DD/MM/YYYY",
-            min_value=datetime.today().date(),
+            min_value=min(existing_due_date, current_date),
+            max_value=current_date + timedelta(days=365 * 10),  # 10 anos à frente
         )
 
         new_installment = st.toggle("Parcelado", value=bill[4])
@@ -181,7 +186,8 @@ def show_edit_form(bill):
         payment_date = st.date_input(
             "Data de Pagamento",
             format="DD/MM/YYYY",
-            value=bill[7] if len(bill) > 7 else datetime.today(),
+            value=bill[7].date() if len(bill) > 7 and bill[7] else current_date,
+            max_value=current_date,
         )
 
         col1, col2, _ = st.columns([2, 2, 4])
