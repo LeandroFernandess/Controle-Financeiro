@@ -103,6 +103,12 @@ def create_user_page():
             st.error("Por favor, insira um e-mail válido.")
             return
 
+        # Validação do telefone
+        phone_regex = re.compile(r"^\+\d{1,3}\d{10}$")
+        if phone and not phone_regex.match(phone):
+            st.error("Por favor, insira um telefone válido no formato +CCXXXXXXXXXX.")
+            return
+
         existing_email = check_existing_email(mail)
         existing_phone = check_existing_phone(phone) if phone else None
 
