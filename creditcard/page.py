@@ -1,3 +1,24 @@
+"""Módulo de gerenciamento de cartões de crédito utilizando Streamlit.
+
+Este módulo fornece uma interface web para o gerenciamento de cartões de crédito,
+permitindo a criação, visualização, atualização e exclusão de cartões para usuários logados.
+
+Funcionalidades principais:
+    - Criação de novos cartões de crédito
+    - Visualização de cartões de crédito existentes
+    - Atualização de informações dos cartões
+    - Exclusão de cartões de crédito
+
+Dependências:
+    - streamlit: Para criação da interface web
+    - datetime: Para manipulação de datas
+    - .queries: Para operações de banco de dados (save_credit_card, get_credit_cards, update_credit_card, delete_credit_card)
+
+Exceções:
+    - Erros de validação para campos obrigatórios
+    - Erros de sessão para usuários não logados
+"""
+
 import streamlit as st
 from datetime import datetime
 from .queries import (
@@ -9,8 +30,24 @@ from .queries import (
 
 
 def credit_card_page():
+    """Gerencia a interface de gerenciamento de cartões de crédito.
 
-    user_id = st.session_state.get("user_id")  # Obtém o user_id da sessão
+    Exibe e controla:
+        - Formulário para criação de novos lançamentos de cartões de crédito
+        - Lista de lançamentos cadastrados
+        - Funcionalidades de edição e exclusão de lançamentos
+
+    Fluxo:
+        1. Exibe título e formulário para novo lançamento
+        2. Valida e salva o novo lançamento
+        3. Recupera e exibe lançamentos existentes
+
+    Componentes:
+        - save_credit_card: Função para salvar um novo cartão de crédito
+        - get_credit_cards: Função para recuperar lançamentos existentes
+        - display_credit_cards: Função para exibir lançamentos cadastrados
+    """
+    user_id = st.session_state.get("user_id")
 
     st.markdown(
         """
@@ -33,7 +70,6 @@ def credit_card_page():
             "Importância*",
             ["Imprevisto", "Consumo próprio", "Necessário", "Lazer", "Outros"],
         )
-        # Na função credit_card_page
         due_date = st.date_input("Data de Vencimento*", value=datetime.today())
         due_date = datetime.combine(due_date, datetime.min.time())
 
@@ -43,7 +79,6 @@ def credit_card_page():
             if not all([account_name, installments, installment_value]):
                 st.error("Campos obrigatórios marcados com *")
             else:
-
                 save_credit_card(
                     user_id,
                     account_name,
@@ -55,17 +90,26 @@ def credit_card_page():
                 st.session_state.pop("credit_cards", None)
                 st.rerun()
 
-    # Verifica se os lançamentos já estão armazenados na sessão
     if "credit_cards" not in st.session_state:
         st.session_state.credit_cards = get_credit_cards(user_id)
     credit_cards = st.session_state.credit_cards
 
-    # Passa o user_id para a função display_credit_cards
     display_credit_cards(credit_cards, user_id)
 
 
 def display_credit_cards(credit_cards, user_id):
+    """Exibe os lançamentos de cartões de crédito cadastrados.
 
+    Esta função renderiza a lista de lançamentos de cartões de crédito
+    e permite a edição e a exclusão de cada lançamento.
+
+    Args:
+        credit_cards (list): Lista de lançamentos de cartões de crédito a serem exibidos.
+        user_id (int): ID do usuário associado aos lançamentos.
+
+    Returns:
+        None: A função não retorna valor, mas atualiza a interface do Streamlit.
+    """
     st.divider()
     st.subheader("Lançamentos Cadastrados")
 
@@ -84,6 +128,17 @@ def display_credit_cards(credit_cards, user_id):
 
 
 def show_card_info(card):
+    """Exibe informações detalhadas de um lançamento de cartão de crédito.
+
+    Esta função mostra o nome da conta, parcelas, valores totais,
+    data de vencimento e permite a edição ou exclusão do lançamento.
+
+    Args:
+        card (tuple): Tupla contendo informações do lançamento do cartão de crédito.
+
+    Returns:
+        None: A função não retorna valor, mas atualiza a interface do Streamlit.
+    """
     cols = st.columns([3, 2, 2, 2, 1.5])
 
     # Coluna 1: Nome e Data
@@ -114,6 +169,18 @@ def show_card_info(card):
 
 
 def show_edit_form(card, user_id):
+    """Renderiza um formulário para editar um lançamento de cartão de crédito.
+
+    Esta função permite que o usuário modifique o nome da conta, número de parcelas,
+    valor de cada parcela, importância e data de vencimento de um lançamento existente.
+
+    Args:
+        card (tuple): Tupla contendo informações do lançamento do cartão de crédito a ser editado.
+        user_id (int): ID do usuário associado ao lançamento.
+
+    Returns:
+        None: A função não retorna valor, mas atualiza a interface do Streamlit.
+    """
     with st.form(key=f"edit_form_{card[0]}"):
         st.subheader("Editar Lançamento")
 
@@ -134,7 +201,6 @@ def show_edit_form(card, user_id):
             ].index(card[4]),
         )
 
-        # Na função show_edit_form
         new_due_date = st.date_input("Data Vencimento*", value=card[5])
         new_due_date = datetime.combine(new_due_date, datetime.min.time())
 

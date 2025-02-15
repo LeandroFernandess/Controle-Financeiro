@@ -1,16 +1,22 @@
-"""Módulo de páginas da aplicação.
+"""Módulo de gerenciamento de usuários para aplicativo Streamlit.
 
-Este módulo contém as páginas da aplicação Streamlit, incluindo:
-- Página de login
-- Página de cadastro de usuário
-- Página de recuperação de senha
+Este módulo fornece funcionalidades relacionadas ao gerenciamento de usuários,
+incluindo autenticação, registro e recuperação de senhas. Integra-se com o
+banco de dados através do módulo queries.
 
-Dependências:
-- streamlit: Para criação da interface gráfica
-- db_queries: Para interação com o banco de dados
-- authentication: Para autenticação de usuários
-- random: Para geração de tokens
-- re: Para validação de e-mails
+Componentes principais:
+    - get_user_by_email: Função para recuperar um usuário a partir do e-mail
+    - check_existing_email: Função para verificar se um e-mail já está cadastrado
+    - check_existing_phone: Função para verificar se um telefone já está cadastrado
+    - create_user: Função para criar um novo usuário
+    - get_password_by_phone: Função para recuperar a senha de um usuário pelo telefone
+    - update_password_by_phone: Função para atualizar a senha de um usuário
+
+Funcionalidades:
+    * Autenticação de usuários com e-mail e senha
+    * Registro de novos usuários com validação de dados
+    * Recuperação de senha via token enviado por SMS
+    * Verificação de dados existentes (e-mail e telefone) para evitar duplicações
 """
 
 import streamlit as st
@@ -28,26 +34,31 @@ import re
 
 
 def is_valid_email(email):
-    """Valida se um e-mail está no formato correto.
+    """Verifica se o e-mail fornecido está no formato válido.
+
+    Esta função utiliza uma expressão regular para validar a estrutura do e-mail.
 
     Args:
-        email (str): O endereço de e-mail a ser validado
+        email (str): O e-mail a ser validado.
 
     Returns:
-        bool: True se o e-mail for válido, False caso contrário
+        bool: Retorna True se o e-mail for válido, False caso contrário.
 
     Example:
-        >>> is_valid_email("teste@exemplo.com")
-        True
+        >>> is_valid_email("usuario@exemplo.com")
     """
     return re.match(r"[^@]+@[^@]+\.[^@]+", email) is not None
 
 
 def login_page():
-    """Exibe a página de login e processa a autenticação do usuário.
+    """Gerencia a interface de login do usuário.
 
-    Exemplo:
-        >>> login_page()
+    Esta função exibe um formulário para o usuário inserir suas credenciais
+    e realiza a autenticação. Se as credenciais forem válidas, o usuário é
+    autenticado e o estado da sessão é atualizado.
+
+    Returns:
+        None: A função não retorna valor, mas atualiza a interface do Streamlit.
     """
     st.title("Login")
     mail = st.text_input("E-mail")
@@ -82,10 +93,14 @@ def login_page():
 
 
 def create_user_page():
-    """Exibe e gerencia a interface de cadastro de novos usuários.
+    """Gerencia a interface de cadastro de usuário.
 
-    Exemplo:
-        >>> create_user_page()
+    Esta função exibe um formulário para o usuário inserir informações
+    necessárias para criar uma nova conta. Valida os dados inseridos
+    antes de salvá-los no banco de dados.
+
+    Returns:
+        None: A função não retorna valor, mas atualiza a interface do Streamlit.
     """
     st.title("Cadastro de Usuário")
     name = st.text_input("Nome")
@@ -130,10 +145,13 @@ def create_user_page():
 
 
 def forgot_password_page():
-    """Exibe a página para recuperação de senha e envia um token SMS para o telefone do usuário.
+    """Gerencia a interface de recuperação de senha.
 
-    Exemplo:
-        >>> forgot_password_page()
+    Esta função permite ao usuário solicitar um token de recuperação
+    via SMS e redefinir a senha utilizando o token recebido.
+
+    Returns:
+        None: A função não retorna valor, mas atualiza a interface do Streamlit.
     """
     st.title("Recuperar Senha")
     phone = st.text_input("Telefone")

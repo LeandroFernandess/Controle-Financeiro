@@ -1,18 +1,18 @@
-"""Módulo de autenticação e comunicação com serviços externos.
+"""Módulo de gerenciamento de segurança e comunicação para aplicativo.
 
-Este módulo fornece funcionalidades para:
-- Hash e verificação de senhas usando bcrypt
-- Envio de SMS via Twilio
+Este módulo fornece funcionalidades para hash de senhas e envio de mensagens SMS.
+Integra-se com o Twilio para envio de SMS e utiliza bcrypt para segurança de senhas.
 
-Dependências:
-- bcrypt: Para hash de senhas
-- python-dotenv: Para gerenciamento de variáveis de ambiente
-- twilio: Para integração com a API de SMS
+Componentes principais:
+    - bcrypt: Biblioteca para hashing de senhas
+    - os: Para acesso a variáveis de ambiente
+    - dotenv: Para carregar variáveis de ambiente de um arquivo .env
+    - Client: Classe do Twilio para gerenciamento de envio de mensagens SMS
 
-Variáveis de Ambiente Requeridas:
-- TWILIO_ACCOUNT_SID: SID da conta Twilio
-- TWILIO_AUTH_TOKEN: Token de autenticação Twilio
-- TWILIO_PHONE_NUMBER: Número de telefone Twilio
+Funcionalidades:
+    * Hash seguro de senhas utilizando bcrypt
+    * Carregamento de credenciais e configuração do ambiente
+    * Envio de mensagens SMS via API do Twilio
 """
 
 import bcrypt
@@ -24,51 +24,57 @@ load_dotenv()
 
 
 def hash_password(password):
-    """Gera um hash seguro para uma senha usando bcrypt.
+    """Gera um hash da senha fornecida.
+
+    Esta função utiliza o algoritmo bcrypt para gerar um hash seguro da
+    senha, que pode ser armazenado no banco de dados.
 
     Args:
-        password (str): Senha em texto puro a ser hasheada
+        password (str): A senha a ser hasheada.
 
     Returns:
-        bytes: Hash da senha no formato bytes
+        bytes: O hash gerado da senha.
 
     Example:
-        >>> hash_password("senha_secreta")
-        b'$2b$12$...'
+        >>> hashed_password = hash_password("minha_senha")
     """
     return bcrypt.hashpw(password.encode("utf-8"), bcrypt.gensalt())
 
 
 def check_password(password, hashed):
-    """Verifica se uma senha corresponde a um hash bcrypt.
+    """Verifica se a senha fornecida corresponde ao hash armazenado.
+
+    Esta função compara a senha em texto claro com o hash armazenado
+    para determinar se elas correspondem.
 
     Args:
-        password (str): Senha em texto puro para verificação
-        hashed (bytes): Hash bcrypt armazenado
+        password (str): A senha em texto claro a ser verificada.
+        hashed (bytes): O hash armazenado da senha.
 
     Returns:
-        bool: True se a senha corresponder ao hash, False caso contrário
+        bool: Retorna True se a senha corresponder ao hash, False caso contrário.
 
     Example:
-        >>> stored_hash = hash_password("senha_correta")
-        >>> check_password("senha_correta", stored_hash)
-        True
+        >>> is_valid = check_password("minha_senha", hashed_password)
     """
     return bcrypt.checkpw(password.encode("utf-8"), hashed)
 
 
 def send_sms(to_phone, message):
-    """Envia uma mensagem SMS usando a API Twilio.
+    """Envia uma mensagem SMS para o número de telefone especificado.
+
+    Esta função utiliza a API do Twilio para enviar mensagens SMS.
+    As credenciais do Twilio devem estar configuradas nas variáveis de ambiente.
 
     Args:
-        to_phone (str): Número de telefone do destinatário no formato E.164
-        message (str): Conteúdo da mensagem SMS
+        to_phone (str): O número de telefone do destinatário, incluindo o código do país.
+        message (str): O corpo da mensagem a ser enviada.
 
     Raises:
-        EnvironmentError: Se variáveis de ambiente do Twilio não estiverem configuradas
+        EnvironmentError: Lança um erro se as credenciais do Twilio não estiverem configuradas.
 
     Example:
-        >>> send_sms("+5511999999999", "Seu código de verificação é 1234")
+        >>> send_sms("+5511999999999", "Olá, esta é uma mensagem de teste!")
     """
     account_sid = os.getenv("TWILIO_ACCOUNT_SID")
     auth_token = os.getenv("TWILIO_AUTH_TOKEN")

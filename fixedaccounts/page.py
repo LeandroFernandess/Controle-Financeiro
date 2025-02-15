@@ -1,3 +1,26 @@
+"""Módulo de gerenciamento de contas fixas para aplicação Streamlit.
+
+Este módulo é responsável por interagir com as funcionalidades de contas fixas
+dentro da aplicação, permitindo a recuperação, atualização e exclusão de contas fixas.
+
+Componentes principais:
+    - save_fixed_account: Função para salvar uma nova conta fixa ou atualizar uma existente
+    - get_fixed_accounts: Função para recuperar as contas fixas do usuário
+    - update_fixed_account: Função para atualizar uma conta fixa específica
+    - delete_fixed_account: Função para excluir uma conta fixa
+
+Módulos integrados:
+    - streamlit: Para a construção da interface do usuário
+
+Funcionalidades:
+    - Visualização das contas fixas cadastradas
+    - Criação, edição e exclusão de contas fixas conforme as entradas do usuário
+
+Fluxo da aplicação:
+    1. Importar funções necessárias para manipulação de contas fixas
+    2. Interagir com a interface do Streamlit para gerenciar contas fixas do usuário
+"""
+
 import streamlit as st
 from .queries import (
     save_fixed_account,
@@ -8,6 +31,23 @@ from .queries import (
 
 
 def fixed_accounts_page():
+    """Gerencia a interface de gerenciamento de contas fixas.
+
+    Exibe e controla:
+        - Formulário para criação de novas contas fixas
+        - Lista de contas fixas cadastradas
+        - Funcionalidades de edição e exclusão de contas fixas
+
+    Fluxo:
+        1. Exibe título e formulário para nova conta fixa
+        2. Valida e salva a nova conta fixa
+        3. Recupera e exibe contas fixas existentes
+
+    Componentes:
+        - save_fixed_account: Função para salvar uma nova conta fixa
+        - get_fixed_accounts: Função para recuperar contas fixas existentes
+        - display_fixed_accounts: Função para exibir contas cadastradas
+    """
     user_id = st.session_state.get("user_id")
 
     st.markdown(
@@ -43,6 +83,17 @@ def fixed_accounts_page():
 
 
 def display_fixed_accounts(accounts):
+    """Exibe as contas fixas cadastradas.
+
+    Esta função renderiza a lista de contas fixas e permite a edição e exclusão
+    de cada conta.
+
+    Args:
+        accounts (list): Lista de contas fixas a serem exibidas.
+
+    Returns:
+        None: A função não retorna valor, mas atualiza a interface do Streamlit.
+    """
     st.divider()
     st.subheader("Contas Cadastradas")
 
@@ -57,6 +108,17 @@ def display_fixed_accounts(accounts):
 
 
 def show_account_info(account):
+    """Exibe informações detalhadas de uma conta fixa.
+
+    Esta função mostra o título e o valor mensal de uma conta fixa, além
+    de permitir a edição e a exclusão da conta.
+
+    Args:
+        account (tuple): Tupla contendo informações da conta fixa.
+
+    Returns:
+        None: A função não retorna valor, mas atualiza a interface do Streamlit.
+    """
     cols = st.columns([3, 2, 2, 1.5])
 
     cols[0].write(f"**{account[1]}**")
@@ -77,6 +139,17 @@ def show_account_info(account):
 
 
 def show_account_editor(account):
+    """Renderiza um formulário para editar uma conta fixa.
+
+    Esta função permite ao usuário modificar o título e o valor mensal
+    de uma conta fixa existente.
+
+    Args:
+        account (tuple): Tupla contendo informações da conta fixa a ser editada.
+
+    Returns:
+        None: A função não retorna valor, mas atualiza a interface do Streamlit.
+    """
     with st.form(key=f"edit_form_{account[0]}"):
         st.subheader("Editar Conta Fixa")
 
