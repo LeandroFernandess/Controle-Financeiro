@@ -103,7 +103,7 @@ controlefinanceiro/
 Para autenticação, é necessário configurar o Firebase:
 
 1. Crie um arquivo `.env` na raiz do projeto.
-2. Adicione as credenciais do Firebase:
+2. Adicione as credenciais do BD e API:
    ```
    DB_NAME= Nome do BD
    DB_USER= Usuário do BD
@@ -127,8 +127,8 @@ Caso tenha dúvidas ou sugestões, entre em contato:
 - **Email**: leandrofernandes1600@email.com
 - **GitHub**: https://github.com/se](https://github.com/LeandroFernandess/Controle-Financeiro
 - **Links utilizados**:
-  - BD --> https://cloud.tembo.io/orgs/org_2rrdBUpzp1gEfGfFusn5XPWcHnR/instances
-  - API para autenticação e recuperação de senha --> https://www.twilio.com/login?iss=https%3A%2F%2Flogin.twilio.com%2F
+  - BD: https://cloud.tembo.io/orgs/org_2rrdBUpzp1gEfGfFusn5XPWcHnR/instances
+  - API para autenticação e recuperação de senha: https://www.twilio.com/login?iss=https%3A%2F%2Flogin.twilio.com%2F
 ---
 
 *Documentação atualizada em: `14/02/2025`.* 🚀
