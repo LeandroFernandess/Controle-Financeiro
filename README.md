@@ -98,7 +98,7 @@ controlefinanceiro/
 6. **Acesse no navegador:**
    Abra o navegador e acesse `http://localhost:8501/`.
 
-## Configuração do Firebase 🔐
+## Configuração do Banco de dados e API da recuperação de senha 🔐
 
 Para autenticação, é necessário configurar o Firebase:
 
