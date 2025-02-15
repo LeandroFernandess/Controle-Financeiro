@@ -62,7 +62,7 @@ controlefinanceiro/
 
 ## Funcionalidades 🚀
 
-- Autenticação de usuários via Firebase.
+- Autenticação de usuários via banco de dados Postgres.
 - Cadastro e gerenciamento de receitas e despesas.
 - Controle de contas fixas e variáveis.
 - Monitoramento de faturas de cartão de crédito.
@@ -100,7 +100,7 @@ controlefinanceiro/
 
 ## Configuração do Banco de dados e API da recuperação de senha 🔐
 
-Para autenticação, é necessário configurar o Firebase:
+Para autenticação, é necessário configurar o Postgres:
 
 1. Crie um arquivo `.env` na raiz do projeto.
 2. Adicione as credenciais do BD e API:
