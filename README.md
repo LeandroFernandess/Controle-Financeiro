@@ -105,14 +105,14 @@ Para autenticação, é necessário configurar o Firebase:
 1. Crie um arquivo `.env` na raiz do projeto.
 2. Adicione as credenciais do Firebase:
    ```
-  DB_NAME= Nome do BD
-  DB_USER= Usuário do BD
-  DB_PASSWORD= Senha do BD
-  DB_HOST= Link do BD
-  DB_PORT= Porta do DB
-  TWILIO_ACCOUNT_SID= Conta do Twilio
-  TWILIO_AUTH_TOKEN= Token de autenticação do Twilio
-  TWILIO_PHONE_NUMBER= Número de telefone gerado pelo Twilio
+   DB_NAME= Nome do BD
+   DB_USER= Usuário do BD
+   DB_PASSWORD= Senha do BD
+   DB_HOST= Link do BD
+   DB_PORT= Porta do DB
+   TWILIO_ACCOUNT_SID= Conta do Twilio
+   TWILIO_AUTH_TOKEN= Token de autenticação do Twilio
+   TWILIO_PHONE_NUMBER= Número de telefone gerado pelo Twilio
    ```
 
 ## Contribuindo 🤝
