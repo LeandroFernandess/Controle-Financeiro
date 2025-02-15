@@ -15,37 +15,37 @@ A estrutura do projeto está organizada da seguinte forma:
 ```
 controlefinanceiro/
 ├── auth/
-│   ├── authentication.py  # Gerenciamento de autenticação
-│   ├── page.py  # Interface de login
-│   ├── queries.py  # Consultas relacionadas a autenticação
+│   ├── authentication.py  
+│   ├── page.py  
+│   ├── queries.py 
 │   ├── __init__.py
 ├── creditcard/
-│   ├── page.py  # Interface para faturas do cartão
-│   ├── queries.py  # Consultas relacionadas ao cartão de crédito
+│   ├── page.py  
+│   ├── queries.py  
 │   ├── __init__.py
 ├── db/
-│   ├── conn.py  # Conexão com o banco de dados
+│   ├── conn.py 
 │   ├── __init__.py
 ├── fixedaccounts/
-│   ├── page.py  # Interface para contas fixas
-│   ├── queries.py  # Consultas relacionadas a contas fixas
+│   ├── page.py  
+│   ├── queries.py  
 │   ├── __init__.py
 ├── income/
-│   ├── page.py  # Interface para receitas
-│   ├── queries.py  # Consultas relacionadas a receitas
+│   ├── page.py  
+│   ├── queries.py  
 │   ├── __init__.py
 ├── slips/
-│   ├── page.py  # Interface para recibos
-│   ├── queries.py  # Consultas relacionadas a recibos
+│   ├── page.py  
+│   ├── queries.py  
 │   ├── __init__.py
 ├── summary/
-│   ├── page.py  # Interface do resumo financeiro
-│   ├── queries.py  # Consultas para gerar o resumo financeiro
+│   ├── page.py  
+│   ├── queries.py  
 │   ├── __init__.py
-├── venv/  # Ambiente virtual
-├── .gitignore  # Arquivo para ignorar arquivos desnecessários no Git
-├── app.py  # Arquivo principal para execução do Streamlit
-├── requirements.txt  # Dependências do projeto
+├── venv/ 
+├── .gitignore  
+├── app.py  
+├── requirements.txt  
 ```
 
 ### Principais Pastas e Arquivos
