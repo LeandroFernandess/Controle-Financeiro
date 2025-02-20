@@ -120,8 +120,8 @@ def search_user_info(usuario_id, mes=None, ano=None):
             SELECT SUM(valor_total) 
             FROM boletos 
             WHERE usuario_id = %s 
-              AND EXTRACT(MONTH FROM data_pagamento) = %s
-              AND EXTRACT(YEAR FROM data_pagamento) = %s
+              AND EXTRACT(MONTH FROM data_vencimento) = %s
+              AND EXTRACT(YEAR FROM data_vencimento) = %s
         """
         result = execute_query(boletos_query, (usuario_id, mes, ano))
         gastos_boletos = result[0][0] if result and result[0][0] else 0
